@@ -1,0 +1,11 @@
+{
+    "id": "mcdr_announcements",
+    "version": "1.2.1",
+    "name": "Announcements",
+    "description": "A plugin running on MCDR to send announcements regularly.",
+    "author": "dodo939",
+    "link": "https://github.com/yfy-dodo939/mcdr_announcements",
+    "dependencies": {
+       "mcdreforged": ">=2.6.0"
+    }
+}
