@@ -1,10 +1,16 @@
+import logging
 import os
 import threading
 import time
 
 from mcdreforged.api.all import *
-import yaml
 from mcdr_announcements.utils import _tr
+logger = logging.Logger("log")
+try:
+    import yaml
+except ModuleNotFoundError:
+    logger.warning("Requirement not found! Trying installing pyyaml...")
+    os.system("pip install pyyaml")
 
 timer = True
 enabled = False
@@ -29,7 +35,7 @@ def send(server: ServerInterface):
 def an_help(context: PlayerCommandSource):
     server = context.get_server()
     info = context.get_info()
-    server.reply(info, "§2-------- Announcements v1.2.1 --------")
+    server.reply(info, "§2-------- Announcements v1.2.2 --------")
     server.reply(info, RText("§7!!an [help]§r").set_hover_text(_tr("command.hover_hint")).set_click_event(RAction.suggest_command, "!!an") + ' ' + _tr("help.help"))
     server.reply(info, RText("§7!!an status§r").set_hover_text(_tr("command.hover_hint")).set_click_event(RAction.suggest_command, "!!an status") + ' ' + _tr("help.status"))
     server.reply(info, RText("§7!!an enable§r").set_hover_text(_tr("command.hover_hint")).set_click_event(RAction.suggest_command, "!!an enable") + ' ' + _tr("help.enable"))
@@ -184,16 +190,16 @@ def on_load(server: ServerInterface, old):
             yaml.safe_dump(info, f)
     sender = threading.Thread(target=send, daemon=True, args=(server,))
     sender.start()
-    server.say(_tr("plugin.load"))
-    server.broadcast(_tr("status.title"))
+    logger.info("[Announcements] Plugin loaded")
+    logger.info("-------- Announcements Status --------")
     if enabled:
-        server.broadcast(_tr("status.enabled"))
+        logger.info("Enable: True")
     else:
-        server.broadcast(_tr("status.disabled"))
-    server.broadcast(_tr("status.time", time_interval))
-    server.broadcast(_tr("status.text"))
+        logger.info("Enable: False")
+    logger.info(f"Interval: {time_interval} second(s)")
+    logger.info("Content: ")
     for t in message:
-        server.broadcast("§7 - §r" + t)
+        logger.info(" - " + t)
 
 
 def on_unload(server: ServerInterface):

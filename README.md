@@ -6,6 +6,10 @@ A plugin running on MCDR to send announcements regularly.
 <br/>
 Run `pip install pyyaml` in cmd or powershell before loading this plugin.
 
+### v1.2.2 Update
++ If pyyaml is not installed, `pip install pyyaml` will be automatically executed to try installing the missing library. (Known issues: Since the installation process is a non-blocking operation, the first time the plugin may run without the library)
++ Fixed the problem of redundant warnings or error messages appearing on the console when starting the server in version `v1.2.1`
+
 ### v1.2.1 Update
 + Plugins can now remember the enabled state when they were last exited, and restore it the next time they are launched.
 + The first announcement display after the plugin is loaded has been cancelled.
@@ -14,9 +18,7 @@ Run `pip install pyyaml` in cmd or powershell before loading this plugin.
 + Added status display and other commands.
 
   `!!an help`: Same as `!!an`
-
   `!!an reload`: Reload the plugin
-
   `!!an status`: Show the current status
 
 ### v1.2.0 update
