@@ -6,7 +6,7 @@
 <br/>使用前在 cmd 或者 powershell 中运行 `pip install pyyaml` 安装 pyyaml 库。
 
 ### v1.2.2 更新
-+ 若检测到没有安装pyyaml，则会自动执行`pip install pyyaml`尝试安装缺失的库。(已知的问题: 由于安装过程为非阻塞操作，因此第一次插件可能会在缺失库的情况下运行)
++ 若检测到没有安装pyyaml，则会自动执行`pip install pyyaml`尝试安装缺失的库。
 + 修复了`v1.2.1`版本中服务器启动时控制台出现冗余警告或报错信息的问题
 
 ### v1.2.1 更新
