@@ -7,7 +7,7 @@ A plugin running on MCDR to send announcements regularly.
 Run `pip install pyyaml` in cmd or powershell before loading this plugin.
 
 ### v1.2.2 Update
-+ If pyyaml is not installed, `pip install pyyaml` will be automatically executed to try installing the missing library. (Known issues: Since the installation process is a non-blocking operation, the first time the plugin may run without the library)
++ If pyyaml is not installed, `pip install pyyaml` will be automatically executed to try installing the missing library.
 + Fixed the problem of redundant warnings or error messages appearing on the console when starting the server in version `v1.2.1`
 
 ### v1.2.1 Update
