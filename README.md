@@ -6,6 +6,12 @@ A plugin running on MCDR to send announcements regularly.
 <br/>
 Run `pip install pyyaml` in cmd or powershell before loading this plugin.
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=yfy-dodo939/mcdr_announcements&type=Date)](https://star-history.com/#yfy-dodo939/mcdr_announcements&Date)
+
+## Update Logs
+
 ### v1.2.2 Update
 + If pyyaml is not installed, `pip install pyyaml` will be automatically executed to try installing the missing library. (Known issues: Since the installation process is a non-blocking operation, the first time the plugin may run without the library)
 + Fixed the problem of redundant warnings or error messages appearing on the console when starting the server in version `v1.2.1`
