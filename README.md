@@ -24,7 +24,9 @@ Run `pip install pyyaml` in cmd or powershell before loading this plugin.
 + Added status display and other commands.
 
   `!!an help`: Same as `!!an`
+
   `!!an reload`: Reload the plugin
+  
   `!!an status`: Show the current status
 
 ### v1.2.0 update
