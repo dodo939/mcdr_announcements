@@ -13,23 +13,24 @@ except ModuleNotFoundError:
     os.system("pip install pyyaml")
 
 timer = True
-enabled = False
+isEnabled = False
 isFirstMsg = True
 message = []
 time_interval = 0
+time_current = 0
 
 
 def send(server: ServerInterface):
-    global isFirstMsg
+    global isFirstMsg, time_current
     while timer:
-        if isFirstMsg:
+        time.sleep(1)
+        time_current += 1
+        if time_current >= time_interval:
+            time_current = 0
+            if isEnabled and not isFirstMsg:
+                for t in message:
+                    server.say(t)
             isFirstMsg = False
-            time.sleep(time_interval)
-            continue
-        if enabled:
-            for t in message:
-                server.say(t)
-        time.sleep(time_interval)
 
 
 def an_help(context: PlayerCommandSource):
@@ -44,11 +45,13 @@ def an_help(context: PlayerCommandSource):
     server.reply(info, RText("§7!!an set §6<message>§r").set_hover_text(_tr("command.hover_hint")).set_click_event(RAction.suggest_command, "!!an set ") + ' ' + _tr("help.set"))
     server.reply(info, RText("§7!!an time §6<seconds>§r").set_hover_text(_tr("command.hover_hint")).set_click_event(RAction.suggest_command, "!!an time ") + ' ' + _tr("help.time"))
     server.reply(info, _tr("status.title"))
-    if enabled:
+    if isEnabled:
         server.reply(info, _tr("status.enabled"))
     else:
         server.reply(info, _tr("status.disabled"))
     server.reply(info, _tr("status.time", time_interval))
+    if isEnabled:
+        server.say(_tr("status.left_time", time_interval - time_current))
     server.reply(info, _tr("status.text"))
     for t in message:
         server.reply(info, "§7 - §r" + t)
@@ -59,21 +62,25 @@ def an_status(context: PlayerCommandSource):
     info = context.get_info()
     if context.is_console:
         server.reply(info, _tr("status.title"))
-        if enabled:
+        if isEnabled:
             server.reply(info, _tr("status.enabled"))
         else:
             server.reply(info, _tr("status.disabled"))
         server.reply(info, _tr("status.time", time_interval))
+        if isEnabled:
+            server.reply(info, _tr("status.left_time", time_interval - time_current))
         server.reply(info, _tr("status.text"))
         for t in message:
             server.reply(info, "§7 - §r" + t)
     else:
         server.say(_tr("status.title"))
-        if enabled:
+        if isEnabled:
             server.say(_tr("status.enabled"))
         else:
             server.say(_tr("status.disabled"))
         server.say(_tr("status.time", time_interval))
+        if isEnabled:
+            server.say(_tr("status.left_time", time_interval - time_current))
         server.say(_tr("status.text"))
         for t in message:
             server.say("§7 - §r" + t)
@@ -85,8 +92,8 @@ def an_disable(context: PlayerCommandSource):
     if not context.has_permission_higher_than(2):
         server.reply(info, _tr("command.no_permission"))
         return
-    global enabled
-    enabled = False
+    global isEnabled
+    isEnabled = False
     with open("config//announcements_config.yml", mode='r', encoding='utf-8') as f:
         temp = yaml.safe_load(f)
         temp["enable"] = False
@@ -101,8 +108,8 @@ def an_enable(context: PlayerCommandSource):
     if not context.has_permission_higher_than(2):
         server.reply(info, _tr("command.no_permission"))
         return
-    global enabled
-    enabled = True
+    global isEnabled
+    isEnabled = True
     with open("config//announcements_config.yml", mode='r', encoding='utf-8') as f:
         temp = yaml.safe_load(f)
         temp["enable"] = True
@@ -154,7 +161,7 @@ def an_time(context: PlayerCommandSource):
         temp["time_interval"] = interval
     with open("config//announcements_config.yml", mode='w', encoding='utf-8') as f:
         yaml.safe_dump(temp, f)
-    server.reply(info, _tr("command.time", interval, RText("§7!!an reload").set_hover_text(_tr("command.hover_hint")).set_click_event(RAction.suggest_command, "!!an reload")))
+    server.reply(info, _tr("command.time", interval))
 
 
 def on_load(server: ServerInterface, old):
@@ -174,7 +181,7 @@ def on_load(server: ServerInterface, old):
     
     builder.register(server)
     
-    global message, time_interval, enabled
+    global message, time_interval, isEnabled
     if not os.path.exists("config//announcements_config.yml"):
         with open("config//announcements_config.yml", mode='w+', encoding='utf-8') as f:
             f.write(_tr("default"))
@@ -183,7 +190,7 @@ def on_load(server: ServerInterface, old):
         time_interval = info["time_interval"]
         message = info["message"]
     if "enable" in info:
-        enabled = info["enable"]
+        isEnabled = info["enable"]
     else:
         info["enable"] = False
         with open("config//announcements_config.yml", mode='w', encoding='utf-8') as f:
@@ -192,7 +199,7 @@ def on_load(server: ServerInterface, old):
     sender.start()
     logger.info("[Announcements] Plugin loaded")
     logger.info("-------- Announcements Status --------")
-    if enabled:
+    if isEnabled:
         logger.info("Enable: True")
     else:
         logger.info("Enable: False")

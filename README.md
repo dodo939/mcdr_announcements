@@ -12,6 +12,11 @@ Run `pip install pyyaml` in cmd or powershell before loading this plugin.
 
 ## Update Logs
 
+### v1.3.0 Update
++ We refactored the logic of the timer part, so it now **supports viewing the remaining time until the next display**!
+  ![Display](/src/v1.3.0_0_en.png)
++ Now after you have executed `!!an time <seconds>`, you no longer need to execute `!!an reload` to reload the plugin to refresh the timer!
+
 ### v1.2.2 Update
 + If pyyaml is not installed, `pip install pyyaml` will be automatically executed to try installing the missing library. (Known issues: Since the installation process is a non-blocking operation, the first time the plugin may run without the library)
 + Fixed the problem of redundant warnings or error messages appearing on the console when starting the server in version `v1.2.1`

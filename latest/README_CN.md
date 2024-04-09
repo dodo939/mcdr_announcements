@@ -5,6 +5,17 @@
 运行于 MCDR 上的定时发送服务器公告的插件。
 <br/>使用前在 cmd 或者 powershell 中运行 `pip install pyyaml` 安装 pyyaml 库。
 
+## Star 趋势图
+
+[![Star History Chart](https://api.star-history.com/svg?repos=yfy-dodo939/mcdr_announcements&type=Date)](https://star-history.com/#yfy-dodo939/mcdr_announcements&Date)
+
+## 更新日志
+
+### v1.3.0 更新
++ 我们重写了计时器部分的逻辑，所以它现在**支持查看距离下次显示的剩余时间**了！
+  ![效果展示](/src/v1.3.0_0_zh.png)
++ 现在当你执行过`!!an time <seconds>`之后，你不需要再执行`!!an reload`重载插件来刷新时间了！
+
 ### v1.2.2 更新
 + 若检测到没有安装pyyaml，则会自动执行`pip install pyyaml`尝试安装缺失的库。(已知的问题: 由于安装过程为非阻塞操作，因此第一次插件可能会在缺失库的情况下运行)
 + 修复了`v1.2.1`版本中服务器启动时控制台出现冗余警告或报错信息的问题
@@ -17,7 +28,9 @@
 + 新增了状态显示及其他指令。
 
   `!!an help`: 同 `!!an`
+
   `!!an reload`: 重新加载插件
+  
   `!!an status`: 查看当前状态
 
 ### v1.2.0 更新
